@@ -1,0 +1,75 @@
+{
+  "$schema": "https://raw.githubusercontent.com/json-resume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Mariana Raquel Mamani",
+    "label": "Fundadora de Magnami / Estudiante de Gestión de la Calidad",
+    "email": "andinativas@gmail.com",
+    "phone": "+54 387 4624947",
+    "url": "https://github.com/MaritoSAS",
+    "summary": "Emprendedora al frente de Magnami y Grupo Marito SAS, enfocada en el desarrollo de experiencias turísticas y culturales, complementado con formación en gestión de calidad y tecnología.",
+    "location": {
+      "city": "La Caldera",
+      "region": "Salta",
+      "countryCode": "AR"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "MaritoSAS",
+        "url": "https://github.com/MaritoSAS"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Magnami / Magnami Experiences (Grupo Marito SAS)",
+      "position": "Fundadora y Titular de Proyecto",
+      "url": "",
+      "startDate": "2024-01-01",
+      "endDate": "Presente",
+      "summary": "Liderazgo y desarrollo de Magnami Experiences, un innovador proyecto de turismo alternativo, identidad cultural y experiencias en La Caldera, Salta.",
+      "highlights": [
+        "Gestión integral del proyecto turístico 'Camino Real', articulando con la Secretaría de Turismo de Salta y el municipio de La Caldera.",
+        "Diseño de circuitos interactivos y estandarización de procesos operativos, protocolos de seguridad y trazabilidad para los servicios brindados."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Gestión y Calidad",
+      "level": "Avanzado",
+      "keywords": [
+        "Gestión de la Calidad",
+        "ISO 9001:2015",
+        "Procesos Operativos",
+        "Turismo Alternativo"
+      ]
+    },
+    {
+      "name": "Tecnología y Herramientas",
+      "level": "Intermedio",
+      "keywords": [
+        "Git",
+        "GitHub",
+        "Arduino",
+        "Blockchain"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "UPATECO",
+      "area": "Gestión de la Calidad",
+      "studyType": "Tecnicatura",
+      "startDate": "2024-01-01",
+      "endDate": "Presente"
+    },
+    {
+      "institution": "BSPA N° 7064",
+      "area": "Bachiller",
+      "studyType": "Secundario",
+      "startDate": "2010-03-01",
+      "endDate": "2012-12-01"
+    }
+  ]
+}
