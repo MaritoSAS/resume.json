@@ -1,55 +1,45 @@
 (function () {
   "use strict";
 
-  var STATUS = {
-    "En línea": "tag tag-live",
-    "En desarrollo": "tag tag-wip"
-  };
-
-  var MONTHS = [
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  var PHRASES = [
+    "calidad que se mide",
+    "procesos que se ordenan",
+    "tecnología e IA aplicadas",
+    "turismo desde La Caldera"
   ];
-
-  document.documentElement.classList.add("js");
+  var STATUS = { "En línea": "status status-live", "En desarrollo": "status" };
+  var MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  var WA = "https://wa.me/543874624947";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (reduced) document.documentElement.classList.add("reduce");
+  document.documentElement.classList.add("js");
+  if (!reduced && fine) document.documentElement.classList.add("has-cursor");
 
   function el(tag, attrs) {
     var node = document.createElement(tag);
-    var key;
-    var value;
     if (attrs) {
-      for (key in attrs) {
-        if (!Object.prototype.hasOwnProperty.call(attrs, key)) continue;
-        value = attrs[key];
-        if (value == null || value === false) continue;
+      Object.keys(attrs).forEach(function (key) {
+        var value = attrs[key];
+        if (value == null || value === false) return;
         if (key === "class") node.className = value;
         else if (key === "text") node.textContent = value;
         else node.setAttribute(key, value);
-      }
+      });
     }
-    for (var i = 2; i < arguments.length; i++) {
-      if (arguments[i] != null) node.append(arguments[i]);
-    }
+    for (var i = 2; i < arguments.length; i++) if (arguments[i] != null) node.append(arguments[i]);
     return node;
-  }
-
-  function clear(node) {
-    while (node.firstChild) node.removeChild(node.firstChild);
   }
 
   function formatDate(iso) {
     if (!iso) return "";
     var parts = String(iso).split("-");
-    var year = parts[0];
     var month = parts[1] ? Number(parts[1]) : 0;
     var day = parts[2] ? Number(parts[2]) : 0;
-    if (month >= 1 && month <= 12 && day) {
-      return day + " de " + MONTHS[month - 1] + " de " + year;
-    }
-    if (month >= 1 && month <= 12) return MONTHS[month - 1] + " de " + year;
-    return year;
+    if (month >= 1 && month <= 12 && day) return day + " de " + MONTHS[month - 1] + " de " + parts[0];
+    if (month >= 1 && month <= 12) return MONTHS[month - 1] + " de " + parts[0];
+    return parts[0];
   }
 
   function formatRange(start, end) {
@@ -58,343 +48,261 @@
     return from + " — " + formatDate(end);
   }
 
+  function formatSpan(start, end) {
+    if (start && end) return formatDate(start) + " — " + formatDate(end);
+    return formatDate(start || end);
+  }
+
   function splitStatus(value) {
     var match = String(value || "").match(/^(.*?)\s+\((en formación|en curso|finalizada|completado)\)$/i);
     if (!match) return { text: value || "", status: "" };
     return { text: match[1], status: match[2].toLowerCase() };
   }
 
-  function statusBadge(status) {
-    if (!status) return null;
-    var label = status.charAt(0).toUpperCase() + status.slice(1);
-    var kind = "badge";
-    if (status === "en curso" || status === "en formación") kind += " badge-course";
-    if (status === "completado" || status === "finalizada") kind += " badge-done";
-    return el("span", { class: kind, text: label });
-  }
-
-  function hostLabel(url) {
-    try {
-      return new URL(url).host.replace(/^www\./, "");
-    } catch (err) {
-      return "Abrir";
-    }
-  }
-
+  function cap(value) { return value ? value.charAt(0).toUpperCase() + value.slice(1) : ""; }
   function place(location) {
     if (!location) return "";
     return [location.city, location.region, location.countryCode].filter(Boolean).join(", ");
   }
+  function host(url) { try { return new URL(url).host.replace(/^www\./, ""); } catch (err) { return "Abrir"; } }
+  function profile(list, network) {
+    return (list || []).filter(function (item) { return item.network === network; })[0];
+  }
+  function reveal(node) { node.setAttribute("data-reveal", ""); return node; }
 
-  function telHref(phone) {
-    var digits = String(phone || "").replace(/[^\d+]/g, "");
-    return digits ? "tel:" + digits : "";
+  function linkAttrs(href, download) {
+    var attrs = { href: href };
+    if (download) attrs.download = download;
+    else if (/^https?:/.test(href)) { attrs.target = "_blank"; attrs.rel = "noopener noreferrer"; }
+    return attrs;
   }
 
-  function reveal(node, delay) {
-    node.setAttribute("data-reveal", "");
-    if (delay) node.style.setProperty("--d", String(delay));
-    return node;
+  function makeButton(href, text, primary, download) {
+    var attrs = linkAttrs(href, download);
+    attrs.class = primary ? "btn btn-lime" : "btn";
+    attrs.text = text;
+    return el("a", attrs);
   }
 
-  function renderHero(resume) {
+  function fillActions(node, basics, linkedin) {
+    if (!node) return;
+    if (basics.url) node.append(makeButton(basics.url, "Ver magnami.ar", true));
+    if (linkedin && linkedin.url) node.append(makeButton(linkedin.url, "LinkedIn"));
+    node.append(makeButton(WA, "WhatsApp"));
+    if (basics.email) node.append(makeButton("mailto:" + basics.email, "Email"));
+    node.append(makeButton("resume.json", "Ver JSON"));
+    node.append(makeButton("resume.json", "Descargar JSON", false, "resume.json"));
+  }
+
+  function splitName(text) {
+    var h1 = document.getElementById("name");
+    h1.textContent = "";
+    String(text || "").split(/(\s+)/).forEach(function (part, index) {
+      if (!part) return;
+      if (!part.trim()) { h1.append(document.createTextNode(part)); return; }
+      var word = el("span", { class: "word", text: part });
+      word.style.setProperty("--i", String(index));
+      h1.append(el("span", { class: "mask" }, word));
+    });
+  }
+
+  function render(resume) {
     var basics = resume.basics || {};
-    var name = document.getElementById("hero-name");
-    var label = document.getElementById("hero-label");
-    var summary = document.getElementById("hero-summary");
-    var kicker = document.getElementById("hero-kicker");
-    var location = place(basics.location);
+    var where = place(basics.location);
+    var linkedin = profile(basics.profiles, "LinkedIn");
+    var github = profile(basics.profiles, "GitHub");
 
-    if (basics.name) name.textContent = basics.name;
-    if (basics.label) label.textContent = basics.label;
-    summary.textContent = basics.summary || "";
-
-    if (location) {
-      clear(kicker);
-      kicker.append(el("span", { text: "Carta de presentación · " + location }));
-      document.getElementById("ficha-lugar").textContent = location;
-      document.getElementById("footer-place").textContent = location;
+    splitName(basics.name || "");
+    document.getElementById("label").textContent = basics.label || "";
+    document.getElementById("summary").textContent = basics.summary || "";
+    document.getElementById("footer-place").textContent = where;
+    if (basics.location && basics.location.city) {
+      document.getElementById("perfil-title").textContent = "Trabajo desde " + basics.location.city + ".";
     }
+    if (basics.location && basics.location.city) document.getElementById("field-label").textContent = basics.location.city;
 
-    var mail = document.getElementById("link-mail");
-    var web = document.getElementById("link-web");
-    if (basics.email) {
-      mail.setAttribute("href", "mailto:" + basics.email);
-      var mailLink = el("a", { href: "mailto:" + basics.email, text: basics.email });
-      var mailDd = document.getElementById("ficha-correo");
-      clear(mailDd);
-      mailDd.append(mailLink);
+    fillActions(document.getElementById("actions"), basics, linkedin);
+    fillActions(document.getElementById("footer-actions"), basics, linkedin);
+
+    var spec = document.getElementById("spec");
+    function fact(term, value, href) {
+      var dd = el("dd");
+      if (href) {
+        var attrs = linkAttrs(href);
+        attrs.text = value;
+        dd.append(el("a", attrs));
+      } else dd.textContent = value;
+      spec.append(el("div", null, el("dt", { text: term }), dd));
     }
-    if (basics.url) web.setAttribute("href", basics.url);
+    if (where) fact("lugar", where);
+    if (basics.email) fact("email", basics.email, "mailto:" + basics.email);
+    if (basics.phone) fact("tel", basics.phone, "tel:" + String(basics.phone).replace(/[^\d+]/g, ""));
+    if (basics.url) fact("web", host(basics.url), basics.url);
+    if (github) fact("github", github.username || "GitHub", github.url);
+    if (linkedin) fact("linkedin", linkedin.username || "LinkedIn", linkedin.url);
+    fact("whatsapp", "+54 387 462 4947", WA);
+    if (resume.meta && resume.meta.lastModified) fact("documento", formatDate(String(resume.meta.lastModified).slice(0, 10)));
 
-    var phone = basics.phone || "";
-    if (phone) {
-      var phoneDd = document.getElementById("ficha-tel");
-      clear(phoneDd);
-      phoneDd.append(el("a", { href: telHref(phone), text: phone }));
-    }
-
-    var profiles = basics.profiles || [];
-    profiles.forEach(function (profile) {
-      if (profile.network === "LinkedIn" && profile.url) {
-        document.getElementById("link-in").setAttribute("href", profile.url);
-      }
+    var keywords = [];
+    (resume.skills || []).forEach(function (skill) {
+      (skill.keywords || []).forEach(function (word) { keywords.push(word); });
     });
-
-    if (resume.meta && resume.meta.lastModified) {
-      var updated = document.getElementById("updated");
-      updated.hidden = false;
-      updated.textContent = "Documento actualizado el " + formatDate(resume.meta.lastModified.slice(0, 10));
+    var track = document.getElementById("marquee");
+    for (var copy = 0; copy < 2; copy++) {
+      var group = el("div");
+      keywords.forEach(function (word) {
+        group.append(el("span", { text: word }));
+        group.append(el("i"));
+      });
+      track.append(group);
     }
 
-    var data = {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      name: basics.name,
-      jobTitle: basics.label,
-      email: basics.email,
-      telephone: basics.phone,
-      url: basics.url
-    };
-    if (basics.location) {
-      data.address = {
-        "@type": "PostalAddress",
-        addressLocality: basics.location.city,
-        addressRegion: basics.location.region,
-        addressCountry: basics.location.countryCode
-      };
-    }
-    data.sameAs = profiles.map(function (profile) { return profile.url; }).filter(Boolean);
-    var current = (resume.work || []).find(function (job) { return job.startDate && !job.endDate; });
-    if (current) data.worksFor = { "@type": "Organization", name: current.name, url: current.url };
-    var script = document.getElementById("person-jsonld");
-    if (script) script.textContent = JSON.stringify(data);
-  }
-
-  function renderProjects(projects) {
-    var grid = document.getElementById("project-grid");
-    var filters = document.getElementById("project-filters");
-    clear(grid);
-    clear(filters);
-    if (!projects || !projects.length) return;
-
+    var projects = document.getElementById("projects");
+    var filters = document.getElementById("filters");
     var present = {};
-    projects.forEach(function (project) {
-      (project.keywords || []).forEach(function (word) {
-        if (STATUS[word]) present[word] = true;
-      });
+    (resume.projects || []).forEach(function (project) {
+      (project.keywords || []).forEach(function (word) { if (STATUS[word]) present[word] = true; });
     });
-
-    var buttons = [];
+    var chips = [];
     function addChip(label, value) {
-      var chip = el("button", {
-        class: "chip",
-        type: "button",
-        text: label,
-        "aria-pressed": value === "all" ? "true" : "false"
-      });
+      var chip = el("button", { class: "chip", type: "button", text: label, "aria-pressed": value === "*" ? "true" : "false" });
       chip.dataset.filter = value;
-      buttons.push(chip);
+      chips.push(chip);
       filters.append(chip);
     }
+    addChip("Todos", "*");
+    Object.keys(STATUS).forEach(function (word) { if (present[word]) addChip(word, word); });
 
-    addChip("Todos", "all");
-    Object.keys(STATUS).forEach(function (word) {
-      if (present[word]) addChip(word, word);
-    });
-
-    projects.forEach(function (project, index) {
-      var keywords = project.keywords || [];
-      var badges = el("div", { class: "card-top" });
-      var pills = el("div", { class: "pills" });
-      var hasBadge = false;
-      var hasPill = false;
-
-      keywords.forEach(function (word) {
-        if (STATUS[word]) {
-          hasBadge = true;
-          badges.append(el("span", { class: STATUS[word], text: word }));
-        } else {
-          hasPill = true;
-          pills.append(el("span", { class: "tag", text: word }));
-        }
-      });
-
-      var card = el("article", { class: "card project-card" });
-      card.dataset.tags = keywords.join("|");
-      if (hasBadge) card.append(badges);
+    (resume.projects || []).forEach(function (project, index) {
+      var words = project.keywords || [];
+      var card = el("article", { class: "card" });
+      card.dataset.tags = words.join("|");
+      var top = el("div", { class: "card-top" });
+      var status = words.filter(function (word) { return STATUS[word]; })[0];
+      top.append(status ? el("span", { class: STATUS[status], text: status }) : el("span"));
+      top.append(el("span", { class: "idx", text: String(index + 1).padStart(2, "0") }));
+      card.append(top);
       card.append(el("h3", { text: project.name || "" }));
       if (project.description) card.append(el("p", { text: project.description }));
-      if (hasPill) card.append(pills);
-
-      var meta = el("div", { class: "card-meta" });
-      if (project.entity) meta.append(el("span", { class: "entity", text: project.entity }));
+      var extra = words.filter(function (word) { return !STATUS[word]; });
+      if (extra.length) card.append(el("p", { class: "entity", text: extra.join(" · ") }));
+      if (project.entity) card.append(el("p", { class: "entity", text: project.entity }));
       if (project.url) {
-        meta.append(el("a", {
-          class: "card-link",
-          href: project.url,
-          target: "_blank",
-          rel: "noopener noreferrer"
-        }, el("span", { class: "host", text: hostLabel(project.url) }), el("span", { class: "arrow", text: "→", "aria-hidden": "true" })));
+        var attrs = linkAttrs(project.url);
+        attrs.text = host(project.url) + " →";
+        card.append(el("a", attrs));
       }
-      card.append(meta);
-      grid.append(reveal(card, index));
+      projects.append(reveal(card));
     });
 
-    var status = document.getElementById("filter-status");
-    buttons.forEach(function (chip) {
+    chips.forEach(function (chip) {
       chip.addEventListener("click", function () {
         var value = chip.dataset.filter;
-        buttons.forEach(function (other) {
-          other.setAttribute("aria-pressed", other === chip ? "true" : "false");
-        });
-        var cards = grid.querySelectorAll(".project-card");
-        cards.forEach(function (card) {
+        chips.forEach(function (other) { other.setAttribute("aria-pressed", other === chip ? "true" : "false"); });
+        projects.querySelectorAll(".card").forEach(function (card) {
           var tags = (card.dataset.tags || "").split("|");
-          var match = value === "all" || tags.indexOf(value) !== -1;
-          card.classList.toggle("is-dim", !match);
+          card.classList.toggle("is-dim", value !== "*" && tags.indexOf(value) === -1);
         });
-        status.textContent = value === "all" ? "Mostrando todos los proyectos." : "Filtrando proyectos: " + value + ".";
       });
     });
-  }
 
-  function renderWork(jobs) {
-    var list = document.getElementById("work-list");
-    clear(list);
-    (jobs || []).forEach(function (job, index) {
-      var article = el("article", { class: "job" });
-      article.append(el("p", { class: "when", text: formatRange(job.startDate, job.endDate) }));
-      article.append(el("h3", { text: job.name || "" }));
-      if (job.position) article.append(el("p", { class: "role", text: job.position }));
-      if (job.location) article.append(el("p", { class: "where", text: job.location }));
-      if (job.summary) article.append(el("p", { class: "summary", text: job.summary }));
-      if (job.highlights && job.highlights.length) {
-        var ul = el("ul");
-        job.highlights.forEach(function (item) {
-          ul.append(el("li", { text: item }));
+    if (!reduced && fine) {
+      projects.querySelectorAll(".card").forEach(function (card) {
+        card.addEventListener("mousemove", function (event) {
+          var rect = card.getBoundingClientRect();
+          var x = (event.clientX - rect.left) / rect.width - 0.5;
+          var y = (event.clientY - rect.top) / rect.height - 0.5;
+          card.style.setProperty("--ry", (x * 7).toFixed(2) + "deg");
+          card.style.setProperty("--rx", (-y * 7).toFixed(2) + "deg");
         });
-        article.append(ul);
-      }
-      if (job.url) {
-        article.append(el("a", {
-          class: "job-link",
-          href: job.url,
-          target: "_blank",
-          rel: "noopener noreferrer",
-          text: hostLabel(job.url)
-        }));
-      }
-      list.append(reveal(article, index));
-    });
-  }
-
-  function renderSkills(skills) {
-    var grid = document.getElementById("skill-grid");
-    clear(grid);
-    (skills || []).forEach(function (skill, index) {
-      var card = el("article", { class: "skill-card" });
-      card.append(el("h3", { text: skill.name || "" }));
-      var pills = el("div", { class: "pills" });
-      (skill.keywords || []).forEach(function (word) {
-        pills.append(el("span", { class: "pill", text: word }));
+        card.addEventListener("mouseleave", function () {
+          card.style.setProperty("--ry", "0deg");
+          card.style.setProperty("--rx", "0deg");
+        });
       });
-      card.append(pills);
-      grid.append(reveal(card, index));
-    });
-  }
-
-  function renderEducation(items) {
-    var list = document.getElementById("education-list");
-    clear(list);
-    (items || []).forEach(function (item, index) {
-      var parsed = splitStatus(item.studyType);
-      var card = el("article", { class: "item" });
-      var badge = statusBadge(parsed.status);
-      if (badge) card.append(badge);
-      card.append(el("h3", { text: item.institution || "" }));
-      if (item.area) card.append(el("p", { class: "area", text: item.area }));
-      if (parsed.text) card.append(el("p", { class: "meta", text: parsed.text }));
-      if (item.startDate || item.endDate) {
-        var range = item.endDate
-          ? formatDate(item.startDate) + " — " + formatDate(item.endDate)
-          : formatDate(item.startDate);
-        card.append(el("p", { class: "meta", text: range }));
-      }
-      list.append(reveal(card, index));
-    });
-  }
-
-  function renderCertificates(items) {
-    var list = document.getElementById("certificate-list");
-    clear(list);
-    (items || []).forEach(function (item, index) {
-      var parsed = splitStatus(item.name);
-      var card = el("article", { class: "item" });
-      var badge = statusBadge(parsed.status);
-      if (badge) card.append(badge);
-      card.append(el("h3", { text: parsed.text }));
-      if (item.issuer) card.append(el("p", { class: "meta", text: item.issuer }));
-      if (item.date) card.append(el("p", { class: "meta", text: formatDate(item.date) }));
-      list.append(reveal(card, index));
-    });
-  }
-
-  function renderLanguages(languages) {
-    var list = document.getElementById("language-list");
-    clear(list);
-    (languages || []).forEach(function (language, index) {
-      var card = el("article", { class: "item" });
-      var row = el("div", { class: "lang" });
-      row.append(el("b", { text: language.language || "" }));
-      if (language.fluency) row.append(el("span", { text: language.fluency }));
-      card.append(row);
-      list.append(reveal(card, index));
-    });
-  }
-
-  function renderInterests(interests) {
-    var list = document.getElementById("interest-list");
-    clear(list);
-    (interests || []).forEach(function (interest, index) {
-      var card = el("article", { class: "item" });
-      var keywords = (interest.keywords || []).join(" · ");
-      card.append(el("h3", { text: interest.name || "" }));
-      if (keywords) card.append(el("p", { class: "area", text: keywords }));
-      list.append(reveal(card, index));
-    });
-  }
-
-  function bindNav() {
-    var toggle = document.querySelector(".nav-toggle");
-    var menu = document.getElementById("nav-menu");
-    var header = document.querySelector(".nav");
-
-    function close() {
-      menu.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
     }
 
-    toggle.addEventListener("click", function () {
-      var open = !menu.classList.contains("is-open");
-      menu.classList.toggle("is-open", open);
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    var work = document.getElementById("work");
+    (resume.work || []).forEach(function (job, index) {
+      var article = el("article", { class: "job" });
+      article.id = "job-" + index;
+      var node = el("button", { class: "node", type: "button", "aria-label": "Resaltar " + (job.name || "este tramo") });
+      var side = el("div");
+      side.append(el("p", { class: "when", text: formatRange(job.startDate, job.endDate) }));
+      if (job.location) side.append(el("p", { class: "muted", text: job.location }));
+      var body = el("div");
+      body.append(el("h3", { text: job.name || "" }));
+      if (job.position) body.append(el("p", { class: "role", text: job.position }));
+      if (job.summary) body.append(el("p", { text: job.summary }));
+      if (job.highlights && job.highlights.length) {
+        var list = el("ul");
+        job.highlights.forEach(function (item) { list.append(el("li", { text: item })); });
+        body.append(list);
+      }
+      if (job.url) {
+        var urlAttrs = linkAttrs(job.url);
+        urlAttrs.text = host(job.url);
+        body.append(el("a", urlAttrs));
+      }
+      article.append(node, side, body);
+      node.addEventListener("click", function () {
+        var pinned = article.classList.contains("is-pinned");
+        work.querySelectorAll(".job").forEach(function (item) { item.classList.remove("is-pinned"); });
+        if (!pinned) {
+          article.classList.add("is-pinned", "is-active");
+          article.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+        }
+      });
+      work.append(reveal(article));
     });
 
-    menu.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", close);
+    var skills = document.getElementById("skills");
+    (resume.skills || []).forEach(function (skill) {
+      var card = el("article", { class: "group" });
+      card.append(el("h3", { text: skill.name || "" }));
+      var tags = el("div", { class: "tags" });
+      (skill.keywords || []).forEach(function (word) { tags.append(el("span", { class: "tag", text: word })); });
+      card.append(tags);
+      skills.append(reveal(card));
     });
 
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") close();
+    (resume.education || []).forEach(function (item) {
+      var parsed = splitStatus(item.studyType);
+      var article = el("article", { class: "item" });
+      if (parsed.status) article.append(el("p", { class: "badge", text: cap(parsed.status) }));
+      article.append(el("h3", { text: item.institution || "" }));
+      if (item.area) article.append(el("p", { text: item.area }));
+      if (parsed.text) article.append(el("p", { class: "muted", text: parsed.text }));
+      var span = formatSpan(item.startDate, item.endDate);
+      if (span) article.append(el("p", { class: "muted", text: span }));
+      document.getElementById("education").append(reveal(article));
     });
 
-    window.addEventListener("scroll", function () {
-      header.classList.toggle("is-stuck", window.scrollY > 8);
-      var height = document.documentElement.scrollHeight - window.innerHeight;
-      var progress = height > 0 ? window.scrollY / height : 0;
-      document.getElementById("progress").style.transform = "scaleX(" + progress + ")";
-    }, { passive: true });
+    (resume.certificates || []).forEach(function (item) {
+      var parsed = splitStatus(item.name);
+      var article = el("article", { class: "item" });
+      if (parsed.status) article.append(el("p", { class: "badge", text: cap(parsed.status) }));
+      article.append(el("h3", { text: parsed.text }));
+      document.getElementById("certificates").append(reveal(article));
+    });
+
+    (resume.languages || []).forEach(function (language) {
+      var row = el("div", { class: "item lang" });
+      row.append(el("h3", { text: language.language || "" }));
+      if (language.fluency) row.append(el("span", { class: "muted", text: language.fluency }));
+      document.getElementById("languages").append(reveal(row));
+    });
+
+    (resume.interests || []).forEach(function (interest) {
+      var article = el("article", { class: "item" });
+      article.append(el("h3", { text: interest.name || "" }));
+      if (interest.keywords && interest.keywords.length) article.append(el("p", { class: "muted", text: interest.keywords.join(" · ") }));
+      document.getElementById("interests").append(reveal(article));
+    });
+
+    bindReveal();
+    bindTimeline();
+    bindSpy();
   }
 
   function bindReveal() {
@@ -409,7 +317,7 @@
         entry.target.classList.add("is-in");
         observer.unobserve(entry.target);
       });
-    }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+    }, { threshold: 0.14 });
     nodes.forEach(function (node) { observer.observe(node); });
   }
 
@@ -418,24 +326,22 @@
     if (!jobs.length || !("IntersectionObserver" in window)) return;
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
+        if (document.querySelector(".job.is-pinned")) return;
         entry.target.classList.toggle("is-active", entry.isIntersecting);
       });
-    }, { threshold: 0.55 });
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
     jobs.forEach(function (job) { observer.observe(job); });
   }
 
   function bindSpy() {
-    var links = Array.prototype.slice.call(document.querySelectorAll(".nav-menu a[href^='#']"));
-    var sections = links.map(function (link) {
-      return document.querySelector(link.getAttribute("href"));
-    }).filter(Boolean);
+    var links = Array.prototype.slice.call(document.querySelectorAll(".menu a[href^='#']"));
+    var sections = links.map(function (link) { return document.querySelector(link.getAttribute("href")); }).filter(Boolean);
     if (!sections.length || !("IntersectionObserver" in window)) return;
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         links.forEach(function (link) {
-          var on = link.getAttribute("href") === "#" + entry.target.id;
-          if (on) link.setAttribute("aria-current", "true");
+          if (link.getAttribute("href") === "#" + entry.target.id) link.setAttribute("aria-current", "true");
           else link.removeAttribute("aria-current");
         });
       });
@@ -443,33 +349,213 @@
     sections.forEach(function (section) { observer.observe(section); });
   }
 
-  function showError(message) {
-    var summary = document.getElementById("hero-summary");
-    summary.textContent = "";
-    summary.append(el("span", { class: "error", text: message }));
+  function startTyping() {
+    var node = document.getElementById("typed");
+    if (reduced) {
+      node.textContent = PHRASES.join("  ·  ");
+      return;
+    }
+    var phrase = 0;
+    var char = 0;
+    var deleting = false;
+    function tick() {
+      var text = PHRASES[phrase];
+      if (!deleting) {
+        char += 1;
+        node.textContent = text.slice(0, char);
+        if (char >= text.length) {
+          deleting = true;
+          setTimeout(tick, 1400);
+          return;
+        }
+        setTimeout(tick, 42);
+        return;
+      }
+      char -= 1;
+      node.textContent = text.slice(0, char);
+      if (char <= 0) {
+        deleting = false;
+        phrase = (phrase + 1) % PHRASES.length;
+        setTimeout(tick, 280);
+        return;
+      }
+      setTimeout(tick, 22);
+    }
+    tick();
   }
+
+  function startField() {
+    var canvas = document.getElementById("plot");
+    var wrap = document.getElementById("field");
+    if (!canvas || !wrap) return;
+    var ctx = canvas.getContext("2d");
+    var width = 0;
+    var height = 0;
+    var running = true;
+
+    function resize() {
+      var rect = wrap.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      width = Math.max(1, rect.width);
+      height = Math.max(1, rect.height);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw(time) {
+      var t = reduced ? 0.8 : time * 0.00035;
+      var gap = width < 520 ? 28 : 22;
+      ctx.clearRect(0, 0, width, height);
+      ctx.lineWidth = 1;
+      var rows = Math.ceil(height / gap) + 2;
+      var cols = Math.ceil(width / gap) + 2;
+      var scroll = window.scrollY * 0.0015;
+      for (var j = 0; j < rows; j++) {
+        ctx.beginPath();
+        for (var i = 0; i <= cols; i++) {
+          var x = i * gap;
+          var wave = Math.sin(i * 0.38 + t + scroll) * Math.cos(j * 0.22 - t * 0.7);
+          var y = j * gap + wave * 8;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        var strong = j % 5 === 0;
+        ctx.strokeStyle = strong ? "rgba(17,17,17,0.55)" : "rgba(90,104,112,0.28)";
+        ctx.stroke();
+      }
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          if ((c + r) % 2) continue;
+          var dx = c * gap;
+          var dy = r * gap + Math.sin(c * 0.38 + t) * 6;
+          var dist = Math.hypot(dx - pointer.x, dy - pointer.y);
+          var near = dist < 110;
+          ctx.beginPath();
+          ctx.arc(dx, dy, near ? 2.4 : 1.15, 0, Math.PI * 2);
+          ctx.fillStyle = near ? "#111111" : "rgba(17,17,17,0.45)";
+          if (near) ctx.fillStyle = "#c6ef22";
+          ctx.fill();
+        }
+      }
+    }
+
+    var pointer = { x: 0, y: 0, moved: false };
+    function placePointer() {
+      if (!pointer.moved) {
+        pointer.x = width * 0.62;
+        pointer.y = height * 0.38;
+      }
+    }
+    wrap.addEventListener("pointermove", function (event) {
+      var rect = wrap.getBoundingClientRect();
+      pointer.moved = true;
+      pointer.x = event.clientX - rect.left;
+      pointer.y = event.clientY - rect.top;
+    });
+
+    resize();
+    placePointer();
+    window.addEventListener("resize", function () { resize(); placePointer(); });
+    if ("ResizeObserver" in window) new ResizeObserver(function () { resize(); placePointer(); }).observe(wrap);
+
+    if (reduced) {
+      draw(0);
+      return;
+    }
+    var seen = true;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        seen = entries[0].isIntersecting;
+      }).observe(wrap);
+    }
+    function frame(time) {
+      if (running && seen && !document.hidden) draw(time);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function startCursor() {
+    if (reduced || !fine) return;
+    var node = document.getElementById("cursor");
+    var tx = 0;
+    var ty = 0;
+    var x = 0;
+    var y = 0;
+    var seen = false;
+    node.style.opacity = "0";
+    window.addEventListener("pointermove", function (event) {
+      seen = true;
+      node.style.opacity = "1";
+      tx = event.clientX;
+      ty = event.clientY;
+      if (!x && !y) { x = tx; y = ty; }
+    }, { passive: true });
+    function frame() {
+      x += (tx - x) * 0.18;
+      y += (ty - y) * 0.18;
+      node.style.left = x + "px";
+      node.style.top = y + "px";
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function startScroll() {
+    var bar = document.getElementById("progress");
+    var fill = document.getElementById("rail-fill");
+    var timeline = document.getElementById("timeline");
+    function onScroll() {
+      var height = document.documentElement.scrollHeight - window.innerHeight;
+      var progress = height > 0 ? window.scrollY / height : 0;
+      bar.style.transform = "scaleX(" + Math.max(0, Math.min(1, progress)) + ")";
+      if (timeline && fill) {
+        var rect = timeline.getBoundingClientRect();
+        var seen = Math.min(rect.height, Math.max(0, window.innerHeight * 0.62 - rect.top));
+        var ratio = rect.height ? seen / rect.height : 0;
+        fill.style.transform = "scaleY(" + Math.max(0, Math.min(1, ratio)) + ")";
+      }
+      document.getElementById("top").classList.toggle("is-stuck", window.scrollY > 4);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  function startNav() {
+    var toggle = document.querySelector(".toggle");
+    var menu = document.getElementById("menu");
+    toggle.addEventListener("click", function () {
+      var open = menu.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    menu.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        menu.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        menu.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  startNav();
+  startTyping();
+  startField();
+  startCursor();
+  startScroll();
 
   fetch("resume.json", { cache: "no-cache" })
     .then(function (response) {
-      if (!response.ok) throw new Error("No se pudo leer resume.json");
+      if (!response.ok) throw new Error("fail");
       return response.json();
     })
-    .then(function (resume) {
-      renderHero(resume);
-      renderProjects(resume.projects);
-      renderWork(resume.work);
-      renderSkills(resume.skills);
-      renderEducation(resume.education);
-      renderCertificates(resume.certificates);
-      renderLanguages(resume.languages);
-      renderInterests(resume.interests);
-      bindReveal();
-      bindTimeline();
-      bindSpy();
-    })
+    .then(render)
     .catch(function () {
-      showError("No se pudo cargar resume.json. Abrí la página desde un servidor local o desde GitHub Pages, no como archivo suelto.");
+      document.getElementById("summary").textContent = "No se pudo cargar resume.json. Abrí la página desde un servidor o desde GitHub Pages.";
     });
-
-  bindNav();
 })();
