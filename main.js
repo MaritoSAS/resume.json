@@ -235,7 +235,7 @@
           href: project.url,
           target: "_blank",
           rel: "noopener noreferrer"
-        }, document.createTextNode(hostLabel(project.url) + " "), el("span", { text: "→", "aria-hidden": "true" })));
+        }, el("span", { class: "host", text: hostLabel(project.url) }), el("span", { class: "arrow", text: "→", "aria-hidden": "true" })));
       }
       card.append(meta);
       grid.append(reveal(card, index));
