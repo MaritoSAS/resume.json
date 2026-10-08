@@ -1,12 +1,12 @@
 {
-  "$schema": "https://raw.githubusercontent.com/json-resume/resume-schema/v1.0.0/schema.json",
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Mariana Raquel Mamani",
-    "label": "Fundadora de Magnami / Estudiante de Gestión de la Calidad",
-    "email": "andinativas@gmail.com",
-    "phone": "+54 387 4624947",
-    "url": "https://github.com/MaritoSAS",
-    "summary": "Emprendedora al frente de Magnami y Grupo Marito SAS, enfocada en el desarrollo de experiencias turísticas y culturales, complementado con formación en gestión de calidad y tecnología.",
+    "label": "Gestión de Calidad · Proyectos · Tecnología aplicada e IA · Turismo",
+    "email": "mariana@magnami.ar",
+    "phone": "+54 387 462 4947",
+    "url": "https://magnami.ar",
+    "summary": "Técnica en Gestión de Calidad y en Gestión de Personas (UPATECO). Cursa la Diplomatura en Sistemas Integrados de Gestión (UCASAL). Fundadora de Grupo Marito S.A.S., empresa de Salta que trabaja en gestión de calidad, tecnología aplicada e IA, y turismo. Experiencia en organización de procesos, gestión documental, planificación y proyectos en el sector público y en organizaciones sociales, con foco en la mejora continua y la transformación digital.",
     "location": {
       "city": "La Caldera",
       "region": "Salta",
@@ -17,59 +17,218 @@
         "network": "GitHub",
         "username": "MaritoSAS",
         "url": "https://github.com/MaritoSAS"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "marianamamani",
+        "url": "https://linkedin.com/in/marianamamani"
       }
     ]
   },
   "work": [
     {
-      "name": "Magnami / Magnami Experiences (Grupo Marito SAS)",
-      "position": "Fundadora y Titular de Proyecto",
-      "url": "",
-      "startDate": "2024-01-01",
-      "endDate": "Presente",
-      "summary": "Liderazgo y desarrollo de Magnami Experiences, un innovador proyecto de turismo alternativo, identidad cultural y experiencias en La Caldera, Salta.",
+      "name": "Grupo Marito S.A.S.",
+      "location": "Salta",
+      "position": "Fundadora y Administradora",
+      "url": "https://magnami.ar",
+      "startDate": "2023",
+      "summary": "Identidad institucional Magnami (magnami.ar). La marca Magnami es de 2023; Grupo Marito S.A.S. se constituyó en octubre de 2025.",
       "highlights": [
-        "Gestión integral del proyecto turístico 'Camino Real', articulando con la Secretaría de Turismo de Salta y el municipio de La Caldera.",
-        "Diseño de circuitos interactivos y estandarización de procesos operativos, protocolos de seguridad y trazabilidad para los servicios brindados."
-      ]
-    }
-  ],
-  "skills": [
-    {
-      "name": "Gestión y Calidad",
-      "level": "Avanzado",
-      "keywords": [
-        "Gestión de la Calidad",
-        "ISO 9001:2015",
-        "Procesos Operativos",
-        "Turismo Alternativo"
+        "Diseño y presentación ante la Secretaría de Turismo de Salta de circuitos turísticos en La Caldera (Camino Real y ascenso al cerro), actualmente en proceso de aprobación.",
+        "Organización de procesos y diseño de circuitos y servicios, con foco en estandarización, experiencia del usuario y coordinación de actores.",
+        "Transformación digital de la marca y desarrollo de herramientas web con apoyo de IA: sitio institucional magnami.ar, con asistente de respuestas guiadas."
       ]
     },
     {
-      "name": "Tecnología y Herramientas",
-      "level": "Intermedio",
-      "keywords": [
-        "Git",
-        "GitHub",
-        "Arduino",
-        "Blockchain"
+      "name": "Fundación Conciencia Comunitaria (FuCoLla)",
+      "position": "Presidenta",
+      "startDate": "2021",
+      "endDate": "2026-09",
+      "summary": "Liderazgo y coordinación de una organización social, con gestión de documentación, procesos, proyectos y convenios.",
+      "highlights": [
+        "Gestión de documentación, procesos y transformación digital de la organización.",
+        "Gestión de proyectos y convenios, con articulación institucional y comunitaria.",
+        "Liderazgo y coordinación de una organización social."
       ]
+    },
+    {
+      "name": "Municipalidad de La Caldera, Salta",
+      "position": "Secretaria de Planificación y Proyectos",
+      "startDate": "2019",
+      "endDate": "2023",
+      "summary": "Integración del gabinete ejecutivo, con participación en la planificación, la gestión de proyectos y el seguimiento documental.",
+      "highlights": [
+        "Integración del gabinete ejecutivo y participación en la planificación y gestión de proyectos municipales.",
+        "Gestión de convenios institucionales y coordinación con organismos públicos y organizaciones de la sociedad civil.",
+        "Seguimiento de iniciativas y administración de documentación de proyectos, con control de avance."
+      ]
+    },
+    {
+      "name": "Andinativas",
+      "position": "Fundadora",
+      "startDate": "2010",
+      "endDate": "2020",
+      "summary": "Gestión integral de emprendimiento textil artesanal: producto, comercialización y relación con clientes."
     }
   ],
   "education": [
     {
       "institution": "UPATECO",
-      "area": "Gestión de la Calidad",
-      "studyType": "Tecnicatura",
-      "startDate": "2024-01-01",
-      "endDate": "Presente"
+      "area": "Gestión de Calidad",
+      "studyType": "Tecnicatura (finalizada)"
+    },
+    {
+      "institution": "UPATECO",
+      "area": "Gestión de Personas",
+      "studyType": "Tecnicatura (finalizada)"
+    },
+    {
+      "institution": "UCASAL",
+      "area": "Sistemas Integrados de Gestión (SIG)",
+      "studyType": "Diplomatura (en curso)"
     },
     {
       "institution": "BSPA N° 7064",
       "area": "Bachiller",
       "studyType": "Secundario",
-      "startDate": "2010-03-01",
-      "endDate": "2012-12-01"
+      "startDate": "2010-03",
+      "endDate": "2012-12"
     }
-  ]
+  ],
+  "certificates": [
+    {
+      "name": "Operador Jr. en implementación y manejo de datos e IA (completado)"
+    },
+    {
+      "name": "Planificación Estratégica"
+    },
+    {
+      "name": "Conducción defensiva"
+    },
+    {
+      "name": "Google Data Analytics (en formación)"
+    },
+    {
+      "name": "Introducción a la IA y datos (en formación)"
+    },
+    {
+      "name": "QGIS (en formación)"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Calidad y gestión",
+      "keywords": [
+        "Gestión de calidad",
+        "ISO 9001:2015",
+        "Sistemas integrados de gestión",
+        "Gestión de procesos",
+        "Mejora continua",
+        "Indicadores",
+        "Gestión documental"
+      ]
+    },
+    {
+      "name": "Proyectos",
+      "keywords": [
+        "Planificación y proyectos",
+        "Coordinación institucional",
+        "Convenios",
+        "Gestión de personas"
+      ]
+    },
+    {
+      "name": "Datos, tecnología e IA",
+      "keywords": [
+        "Análisis de datos",
+        "Power BI",
+        "IA aplicada",
+        "Transformación digital",
+        "Git",
+        "GitHub",
+        "Vercel",
+        "Lovable",
+        "ChatGPT",
+        "Claude",
+        "Gemini",
+        "GitHub Copilot",
+        "Canva",
+        "Arduino",
+        "Blockchain (Stellar)"
+      ]
+    },
+    {
+      "name": "Turismo",
+      "keywords": [
+        "Turismo alternativo y sostenible",
+        "Diseño de circuitos"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Español",
+      "fluency": "Nativo"
+    },
+    {
+      "language": "Inglés",
+      "fluency": "Intermedio"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Licencia de conducir",
+      "keywords": [
+        "B2"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "magnami.ar",
+      "description": "Sitio institucional de Grupo Marito S.A.S. En línea.",
+      "url": "https://magnami.ar",
+      "entity": "Grupo Marito S.A.S.",
+      "keywords": [
+        "En línea",
+        "Sitio institucional"
+      ]
+    },
+    {
+      "name": "Moxotoro",
+      "description": "Experiencia patrimonial en La Caldera, con pagos en Stellar USDC. Presentado en el Argentina Builder Challenge BAF x Stellar. En desarrollo.",
+      "url": "https://moxotoro.vercel.app",
+      "entity": "Grupo Marito S.A.S.",
+      "keywords": [
+        "En desarrollo",
+        "Stellar USDC",
+        "Turismo"
+      ]
+    },
+    {
+      "name": "Camino Real",
+      "description": "Landing de la experiencia turística cultural en La Caldera.",
+      "url": "https://camino-real-magnami.vercel.app",
+      "entity": "Grupo Marito S.A.S.",
+      "keywords": [
+        "Turismo cultural",
+        "La Caldera"
+      ]
+    },
+    {
+      "name": "Tarjetas de presentación NFC para profesionales",
+      "description": "Servicio en desarrollo, con demos en magnami.ar.",
+      "url": "https://magnami.ar",
+      "entity": "Grupo Marito S.A.S.",
+      "keywords": [
+        "En desarrollo",
+        "NFC"
+      ]
+    }
+  ],
+  "meta": {
+    "canonical": "https://maritosas.github.io/resume.json/resume.json",
+    "version": "v1.0.0",
+    "lastModified": "2026-10-08T00:00:00"
+  }
 }
