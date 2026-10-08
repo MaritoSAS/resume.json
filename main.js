@@ -404,37 +404,44 @@
     }
 
     function draw(time) {
-      var t = reduced ? 0.8 : time * 0.00035;
-      var gap = width < 520 ? 28 : 22;
+      var t = reduced ? 1.1 : time * 0.00028;
+      var scroll = window.scrollY * 0.0022;
+      var mobile = width < 520;
+      var step = mobile ? 12 : 8;
+      var band = mobile ? 16 : 13;
       ctx.clearRect(0, 0, width, height);
-      ctx.lineWidth = 1;
-      var rows = Math.ceil(height / gap) + 2;
-      var cols = Math.ceil(width / gap) + 2;
-      var scroll = window.scrollY * 0.0015;
-      for (var j = 0; j < rows; j++) {
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      var bands = Math.ceil(height / band) + 8;
+      for (var b = -3; b < bands; b++) {
         ctx.beginPath();
-        for (var i = 0; i <= cols; i++) {
-          var x = i * gap;
-          var wave = Math.sin(i * 0.38 + t + scroll) * Math.cos(j * 0.22 - t * 0.7);
-          var y = j * gap + wave * 8;
-          if (i === 0) ctx.moveTo(x, y);
+        var major = ((b % 4) + 4) % 4 === 0;
+        for (var x = -step; x <= width + step; x += step) {
+          var nx = x / Math.max(width, 1);
+          var pull = Math.exp(-Math.pow((x - pointer.x) / (mobile ? 78 : 120), 2));
+          var y = b * band
+            + Math.sin(nx * 9.4 + b * 0.46 + t + scroll) * (7 + (Math.abs(b) % 4) * 1.6)
+            + Math.cos(nx * 3.6 - t * 0.55 + b * 0.18) * 4.5
+            - pull * (mobile ? 14 : 20) * Math.sin(b * 0.62 + t);
+          if (x === -step) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        var strong = j % 5 === 0;
-        ctx.strokeStyle = strong ? "rgba(17,17,17,0.55)" : "rgba(90,104,112,0.28)";
+        ctx.strokeStyle = major ? "rgba(17,17,17,0.78)" : "rgba(90,104,112,0.4)";
+        ctx.lineWidth = major ? 1.25 : 0.7;
         ctx.stroke();
       }
+      var gap = mobile ? 24 : 18;
+      var rows = Math.ceil(height / gap) + 1;
+      var cols = Math.ceil(width / gap) + 1;
       for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
-          if ((c + r) % 2) continue;
-          var dx = c * gap;
-          var dy = r * gap + Math.sin(c * 0.38 + t) * 6;
+          var dx = c * gap + 4;
+          var dy = r * gap + 6 + Math.sin(c * 0.5 + t + scroll) * 3.5;
           var dist = Math.hypot(dx - pointer.x, dy - pointer.y);
-          var near = dist < 110;
+          var near = dist < (mobile ? 72 : 108);
           ctx.beginPath();
-          ctx.arc(dx, dy, near ? 2.4 : 1.15, 0, Math.PI * 2);
-          ctx.fillStyle = near ? "#111111" : "rgba(17,17,17,0.45)";
-          if (near) ctx.fillStyle = "#c6ef22";
+          ctx.arc(dx, dy, near ? 2.5 : 1.05, 0, Math.PI * 2);
+          ctx.fillStyle = near ? "#c6ef22" : "rgba(17,17,17,0.42)";
           ctx.fill();
         }
       }

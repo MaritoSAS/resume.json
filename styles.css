@@ -57,6 +57,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   margin: 0; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--lime);
   pointer-events: none; transform: translate(-50%, -50%);
 }
+html.has-cursor, html.has-cursor * { cursor: none; }
 html.has-cursor .cursor { display: block; }
 
 .nav {
