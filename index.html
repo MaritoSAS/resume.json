@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mariana Raquel Mamani · Gestión de Calidad, Proyectos y Tecnología</title>
+  <meta name="description" content="Técnica en Gestión de Calidad y en Gestión de Personas. Fundadora de Grupo Marito S.A.S. (Magnami), La Caldera, Salta. Proyectos, tecnología aplicada e IA, y turismo.">
+  <meta name="author" content="Mariana Raquel Mamani">
+  <meta name="theme-color" content="#f3f3ef">
+  <meta name="color-scheme" content="light">
+  <link rel="canonical" href="https://maritosas.github.io/resume.json/">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mariana Raquel Mamani">
+  <meta property="og:title" content="Mariana Raquel Mamani · Gestión de Calidad, Proyectos y Tecnología">
+  <meta property="og:description" content="Técnica en Gestión de Calidad y en Gestión de Personas. Fundadora de Grupo Marito S.A.S. (Magnami), La Caldera, Salta. Proyectos, tecnología aplicada e IA, y turismo.">
+  <meta property="og:url" content="https://maritosas.github.io/resume.json/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Mariana Raquel Mamani · Gestión de Calidad, Proyectos y Tecnología">
+  <meta name="twitter:description" content="Técnica en Gestión de Calidad y en Gestión de Personas. Fundadora de Grupo Marito S.A.S. (Magnami), La Caldera, Salta.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <header class="nav" id="top">
+    <div class="shell nav-inner">
+      <a class="brand" href="#inicio"><b>MM</b><span>mariana</span></a>
+      <button class="toggle" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+      <nav class="menu" id="menu" aria-label="Secciones">
+        <a href="#perfil">Perfil</a>
+        <a href="#puente">Magnami</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#trayectoria">Trayectoria</a>
+        <a href="#capacidades">Capacidades</a>
+        <a href="#formacion">Formación</a>
+        <a class="menu-cta" href="https://magnami.ar" target="_blank" rel="noopener noreferrer">magnami.ar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio" aria-labelledby="name">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <p class="terminal" aria-hidden="true"><span class="prompt">~/</span><span id="typed"></span><span class="caret"></span></p>
+          <p class="sr-only">Calidad que se mide. Procesos que se ordenan. Tecnología e IA aplicadas. Turismo desde La Caldera.</p>
+          <h1 id="name"></h1>
+          <p class="label" id="label"></p>
+          <p class="voice">Ordeno procesos, aplico tecnología y diseño experiencias.</p>
+          <div class="actions" id="actions" aria-label="Contacto y enlaces"></div>
+        </div>
+        <div class="field" id="field">
+          <canvas id="plot" aria-hidden="true"></canvas>
+          <p class="field-label" id="field-label">La Caldera</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
+
+    <section class="section" id="perfil" aria-labelledby="perfil-title">
+      <div class="shell perfil-grid">
+        <div>
+          <p class="kicker">01 — Perfil</p>
+          <h2 id="perfil-title">Trabajo desde La Caldera.</h2>
+          <p class="summary" id="summary"></p>
+        </div>
+        <dl class="spec" id="spec"></dl>
+      </div>
+    </section>
+
+    <section class="bridge" id="puente" aria-labelledby="bridge-title">
+      <div class="shell">
+        <p class="kicker">02 — Grupo Marito S.A.S. / Magnami</p>
+        <h2 id="bridge-title">Grupo Marito S.A.S. es la empresa. Magnami es la identidad institucional. Moxotoro es un proyecto de turismo.</h2>
+        <div class="trio">
+          <article>
+            <span>Empresa</span>
+            <b>Grupo Marito S.A.S.</b>
+          </article>
+          <article>
+            <span>Identidad institucional</span>
+            <b>Magnami</b>
+            <a href="https://magnami.ar" target="_blank" rel="noopener noreferrer">magnami.ar</a>
+          </article>
+          <article>
+            <span>Proyecto de turismo</span>
+            <b>Moxotoro</b>
+          </article>
+        </div>
+        <a class="btn btn-lime btn-xl" href="https://magnami.ar" target="_blank" rel="noopener noreferrer">Ver magnami.ar</a>
+      </div>
+    </section>
+
+    <section class="section" id="proyectos" aria-labelledby="proyectos-title">
+      <div class="shell">
+        <p class="kicker">03 — Proyectos</p>
+        <h2 id="proyectos-title">Lo que estoy armando.</h2>
+        <div class="filters" id="filters" role="toolbar" aria-label="Filtrar proyectos"></div>
+        <div class="cards" id="projects"></div>
+      </div>
+    </section>
+
+    <section class="section section-tight" id="trayectoria" aria-labelledby="trayectoria-title">
+      <div class="shell">
+        <p class="kicker">04 — Trayectoria</p>
+        <h2 id="trayectoria-title">Dónde estuve.</h2>
+        <div class="timeline" id="timeline">
+          <div class="rail" aria-hidden="true"><span id="rail-fill"></span></div>
+          <div id="work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capacidades" aria-labelledby="capacidades-title">
+      <div class="shell">
+        <p class="kicker">05 — Capacidades</p>
+        <h2 id="capacidades-title">Con qué trabajo.</h2>
+        <div class="groups" id="skills"></div>
+      </div>
+    </section>
+
+    <section class="section" id="formacion" aria-labelledby="formacion-title">
+      <div class="shell">
+        <p class="kicker">06 — Formación</p>
+        <h2 id="formacion-title">Lo que estudié.</h2>
+        <div class="split">
+          <div>
+            <p class="block">Estudios</p>
+            <div id="education"></div>
+          </div>
+          <div>
+            <p class="block">Certificados</p>
+            <div id="certificates"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="idiomas" aria-labelledby="idiomas-title">
+      <div class="shell">
+        <p class="kicker">07 — Idiomas</p>
+        <h2 id="idiomas-title">Cómo me comunico.</h2>
+        <div class="split">
+          <div id="languages"></div>
+          <div id="interests"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-grid">
+      <div>
+        <p class="footer-name">Mariana Raquel Mamani</p>
+        <p class="muted" id="footer-place"></p>
+      </div>
+      <div class="actions" id="footer-actions" aria-label="Contacto"></div>
+    </div>
+  </footer>
+
+  <a class="wa" href="https://wa.me/543874624947" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  <noscript><p class="shell note">Para ver la página hace falta JavaScript. El archivo <a href="resume.json">resume.json</a> sigue disponible.</p></noscript>
+  <script src="main.js" defer></script>
+</body>
+</html>
