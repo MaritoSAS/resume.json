@@ -32,6 +32,18 @@ python3 -m http.server 8080
 
 Abrir `http://localhost:8080/`. Abrir `index.html` con doble clic no alcanza: el navegador bloquea la lectura de `resume.json` en `file://`.
 
+## Tres propuestas visuales
+
+La página de la raíz sigue en pie. Estas carpetas son mockups de marca personal, con el mismo `resume.json` y otra identidad (ninguna repite el fondo oscuro con dorado de Magnami):
+
+| Propuesta | Carpeta |
+| --- | --- |
+| Editorial clara | [mockups/editorial/](mockups/editorial/) |
+| Andino contemporáneo | [mockups/andino/](mockups/andino/) |
+| Tech minimalista | [mockups/tech/](mockups/tech/) |
+
+Cada `index.html` es autocontenido y lee `../../resume.json`. Con el servidor local: `http://localhost:8080/mockups/editorial/` (y lo mismo para `andino` y `tech`).
+
 ## Archivos
 
 | Archivo | Uso |

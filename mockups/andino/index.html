@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mariana Raquel Mamani · Andino</title>
+  <meta name="description" content="Propuesta andina contemporánea para la carta de presentación de Mariana Raquel Mamani. El contenido sale de resume.json.">
+  <meta name="theme-color" content="#f3ecdf">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Petrona:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sand: #f3ecdf;
+      --sand-2: #e7dcc9;
+      --ink: #2a231c;
+      --muted: #5c5146;
+      --terracotta: #c25b3a;
+      --clay: #7a341f;
+      --cardon: #3d5a4c;
+      --ocre: #a68448;
+      --serif: "Petrona", Georgia, serif;
+      --sans: "Outfit", "Segoe UI", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; line-height: 1.02; }
+    p { margin: 0; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--cardon); outline-offset: 3px; }
+    ::selection { background: #efd0c4; }
+    .skip { position: fixed; left: 12px; top: -50px; background: var(--terracotta); color: #fff; padding: 8px 12px; z-index: 30; }
+    .skip:focus { top: 12px; }
+    .wrap { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
+    .guarda {
+      height: 18px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='18' viewBox='0 0 84 18'><path d='M0 12 H10 V6 H20 V12 H30 V6 H40 V12 H50 V6 H60 V12 H70 V6 H84' fill='none' stroke='%23c25b3a' stroke-width='1.2'/><path d='M40 3 l4 4 -4 4 -4 -4 z' fill='none' stroke='%233d5a4c' stroke-width='1'/></svg>");
+      background-repeat: repeat-x;
+      background-position: center;
+    }
+    .bar {
+      position: sticky; top: 0; z-index: 12;
+      background: rgba(243, 236, 223, 0.94);
+      backdrop-filter: blur(12px);
+    }
+    .bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 500; }
+    .mark { width: 22px; height: 22px; color: var(--cardon); }
+    .proposal { color: var(--clay); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+    .nav { display: flex; gap: 16px; }
+    .nav a { text-decoration: none; color: var(--muted); font-size: 0.95rem; }
+    .nav a:hover { color: var(--clay); }
+    .toggle { display: none; min-height: 42px; padding: 0 12px; border: 1px solid var(--cardon); color: var(--cardon); }
+    .hero { padding: 28px 0 64px; position: relative; }
+    .frame {
+      position: relative;
+      border: 1px solid var(--cardon);
+      padding: clamp(22px, 4vw, 48px);
+    }
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border: 1px solid rgba(194, 91, 58, 0.45);
+      pointer-events: none;
+    }
+    .watermark {
+      position: absolute;
+      right: 6%;
+      top: 18%;
+      width: min(280px, 36vw);
+      color: var(--cardon);
+      opacity: 0.28;
+      pointer-events: none;
+    }
+    .kicker { position: relative; color: var(--clay); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 18px; }
+    h1 { position: relative; font-size: clamp(3rem, 6.4vw, 5.6rem); max-width: 10em; text-wrap: balance; }
+    .label { position: relative; margin-top: 16px; max-width: 22em; color: var(--cardon); font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 2vw, 1.7rem); line-height: 1.3; }
+    .summary { position: relative; margin-top: 18px; max-width: 40rem; color: var(--ink); font-weight: 300; }
+    .actions { position: relative; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; padding: 0 16px;
+      border: 1px solid var(--clay); color: var(--clay);
+      text-decoration: none; font-weight: 500;
+      background: transparent;
+      transition: background .25s ease, color .25s ease, transform .25s ease;
+    }
+    .btn-fill { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+    .btn:hover { background: var(--clay); border-color: var(--clay); color: #fff; }
+    .section { padding: 72px 0; }
+    .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .head p { color: var(--clay); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+    h2 { font-size: clamp(2.2rem, 4vw, 3.4rem); }
+    .tiles { display: grid; gap: 14px; }
+    .tile {
+      position: relative;
+      background: rgba(255, 252, 246, 0.55);
+      border: 1px solid rgba(61, 90, 76, 0.28);
+      padding: 22px 22px 20px;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .tile::before, .tile::after {
+      content: "";
+      position: absolute;
+      width: 12px; height: 12px;
+      border-color: var(--terracotta);
+      border-style: solid;
+    }
+    .tile::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+    .tile::after { right: 8px; bottom: 8px; border-width: 0 1px 1px 0; }
+    .tile:hover { transform: translateY(-4px); border-color: var(--terracotta); }
+    .tag { display: inline-block; margin: 0 6px 6px 0; color: var(--clay); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .tile h3 { font-size: clamp(1.6rem, 2vw, 2.1rem); margin: 6px 0 8px; }
+    .tile p { color: var(--muted); font-weight: 300; }
+    .tile a { display: inline-block; margin-top: 12px; color: var(--clay); font-weight: 600; text-decoration: none; }
+    .entity { margin-top: 8px; color: var(--cardon); font-size: 0.9rem; }
+    .stack { display: grid; gap: 12px; }
+    .plate {
+      display: grid; gap: 8px;
+      padding: 20px 0 20px 16px;
+      border-left: 2px solid var(--sand-2);
+    }
+    .plate.is-active, .plate:hover { border-left-color: var(--terracotta); }
+    .when { font-family: var(--serif); color: var(--terracotta); font-size: 1.25rem; }
+    .plate h3 { font-size: 1.7rem; }
+    .role { font-weight: 600; }
+    .quiet { color: var(--muted); font-weight: 300; }
+    .plate ul { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+    .plate li { padding-left: 14px; position: relative; }
+    .plate li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border: 1px solid var(--cardon); transform: rotate(45deg); }
+    .plate a { color: var(--clay); font-weight: 600; text-decoration: none; }
+    .groups { display: grid; gap: 12px; }
+    .group { background: rgba(255,252,246,.45); border: 1px solid rgba(61,90,76,.22); padding: 18px; }
+    .group h3 { font-size: 1.45rem; color: var(--cardon); margin-bottom: 10px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill { border: 1px solid rgba(122, 52, 31, 0.35); padding: 6px 10px; font-size: 0.92rem; background: transparent; }
+    .split { display: grid; gap: 28px; }
+    .block-title { margin-bottom: 8px; color: var(--clay); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+    .item { padding: 14px 0; border-top: 1px solid rgba(61, 90, 76, 0.2); }
+    .badge { color: var(--cardon); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+    .item h3 { font-size: 1.4rem; }
+    .lang { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .lang b { font-family: var(--serif); font-size: 1.8rem; font-weight: 500; }
+    .footer { padding: 10px 0 42px; display: grid; gap: 8px; }
+    .note { color: var(--muted); font-size: 0.9rem; }
+    .error { color: var(--clay); }
+    @media (prefers-reduced-motion: no-preference) {
+      .js [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+      .js [data-reveal].is-in { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .tile:hover { transform: none; }
+    }
+    @media (max-width: 820px) {
+      .toggle { display: inline-flex; align-items: center; }
+      .proposal { display: none; }
+      .nav { display: none; position: absolute; left: 20px; right: 20px; top: 82px; flex-direction: column; padding: 8px; background: var(--sand); border: 1px solid var(--cardon); }
+      .nav.is-open { display: flex; }
+      .nav a { padding: 10px 8px; }
+      .watermark { display: none; }
+    }
+    @media (max-width: 420px) {
+      .wrap { width: min(1100px, calc(100% - 28px)); }
+      .actions .btn { flex: 1 1 calc(50% - 8px); }
+    }
+    @media (min-width: 860px) {
+      .tiles { grid-template-columns: 1fr 1fr; }
+      .tiles .tile:first-child { grid-column: 1 / -1; }
+      .groups { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .plate { grid-template-columns: 220px minmax(0, 1fr); gap: 20px; align-items: start; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <div class="guarda" aria-hidden="true"></div>
+  <header class="bar">
+    <div class="wrap bar-inner">
+      <a class="brand" href="#inicio">
+        <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 22 12 12 22 2 12Z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M12 7 17 12 12 17 7 12Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+        Mariana Mamani
+      </a>
+      <p class="proposal">Propuesta 02 · Andino</p>
+      <button class="toggle" type="button" aria-expanded="false" aria-controls="menu">Índice</button>
+      <nav class="nav" id="menu" aria-label="Secciones">
+        <a href="#proyectos">Proyectos</a>
+        <a href="#trayectoria">Trayectoria</a>
+        <a href="#capacidades">Capacidades</a>
+        <a href="#formacion">Formación</a>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <div class="wrap">
+        <div class="frame">
+          <svg class="watermark" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 10 190 100 100 190 10 100Z" fill="none" stroke="currentColor"/><path d="M100 38 162 100 100 162 38 100Z" fill="none" stroke="currentColor"/></svg>
+          <p class="kicker" id="kicker">La Caldera, Salta</p>
+          <h1 id="name"></h1>
+          <p class="label" id="label"></p>
+          <p class="summary" id="summary"></p>
+          <div class="actions" id="actions" aria-label="Contacto y enlaces"></div>
+        </div>
+      </div>
+    </section>
+    <div class="guarda" aria-hidden="true"></div>
+    <section class="section" id="proyectos">
+      <div class="wrap">
+        <div class="head"><h2>Proyectos</h2><p>01</p></div>
+        <div class="tiles" id="projects"></div>
+      </div>
+    </section>
+    <div class="guarda" aria-hidden="true"></div>
+    <section class="section" id="trayectoria">
+      <div class="wrap">
+        <div class="head"><h2>Trayectoria</h2><p>02</p></div>
+        <div class="stack" id="work"></div>
+      </div>
+    </section>
+    <div class="guarda" aria-hidden="true"></div>
+    <section class="section" id="capacidades">
+      <div class="wrap">
+        <div class="head"><h2>Capacidades</h2><p>03</p></div>
+        <div class="groups" id="skills"></div>
+      </div>
+    </section>
+    <div class="guarda" aria-hidden="true"></div>
+    <section class="section" id="formacion">
+      <div class="wrap">
+        <div class="head"><h2>Formación</h2><p>04</p></div>
+        <div class="split">
+          <div>
+            <p class="block-title">Estudios</p>
+            <div id="education"></div>
+          </div>
+          <div>
+            <p class="block-title">Certificados</p>
+            <div id="certificates"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="idiomas">
+      <div class="wrap">
+        <div class="head"><h2>Idiomas</h2><p>05</p></div>
+        <div class="split">
+          <div id="languages"></div>
+          <div id="interests"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="guarda" aria-hidden="true"></div>
+  <footer class="wrap footer">
+    <p id="footer-place"></p>
+    <p class="note">Propuesta visual andina contemporánea. Geometría textil en trazo, sin fotografías. El contenido sale de resume.json.</p>
+  </footer>
+  <script>
+    (function () {
+      "use strict";
+      document.documentElement.classList.add("js");
+      var MONTHS = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      function el(tag, attrs) {
+        var node = document.createElement(tag);
+        if (attrs) Object.keys(attrs).forEach(function (key) {
+          var value = attrs[key];
+          if (value == null || value === false) return;
+          if (key === "class") node.className = value;
+          else if (key === "text") node.textContent = value;
+          else node.setAttribute(key, value);
+        });
+        for (var i = 2; i < arguments.length; i++) if (arguments[i] != null) node.append(arguments[i]);
+        return node;
+      }
+      function formatDate(iso) {
+        if (!iso) return "";
+        var p = String(iso).split("-");
+        var month = p[1] ? Number(p[1]) : 0;
+        var day = p[2] ? Number(p[2]) : 0;
+        if (month >= 1 && month <= 12 && day) return day + " de " + MONTHS[month - 1] + " de " + p[0];
+        if (month >= 1 && month <= 12) return MONTHS[month - 1] + " de " + p[0];
+        return p[0];
+      }
+      function formatRange(start, end) {
+        var from = formatDate(start);
+        if (!end) return from ? from + " — Actualidad" : "Actualidad";
+        return from + " — " + formatDate(end);
+      }
+      function formatSpan(start, end) {
+        if (start && end) return formatDate(start) + " — " + formatDate(end);
+        return formatDate(start || end);
+      }
+      function splitStatus(value) {
+        var match = String(value || "").match(/^(.*?)\s+\((en formación|en curso|finalizada|completado)\)$/i);
+        if (!match) return { text: value || "", status: "" };
+        return { text: match[1], status: match[2].toLowerCase() };
+      }
+      function cap(value) { return value ? value.charAt(0).toUpperCase() + value.slice(1) : ""; }
+      function place(location) {
+        if (!location) return "";
+        return [location.city, location.region, location.countryCode].filter(Boolean).join(", ");
+      }
+      function host(url) { try { return new URL(url).host.replace(/^www\./, ""); } catch (e) { return "Abrir"; } }
+      function wa(phone) { var d = String(phone || "").replace(/\D/g, ""); return d ? "https://wa.me/" + d : ""; }
+      function profile(list, network) { return (list || []).filter(function (item) { return item.network === network; })[0]; }
+      function reveal(node) { node.setAttribute("data-reveal", ""); return node; }
+      function btn(href, text, primary, download) {
+        var attrs = { class: primary ? "btn btn-fill" : "btn", href: href, text: text };
+        if (download) attrs.download = download;
+        else if (/^https?:/.test(href)) { attrs.target = "_blank"; attrs.rel = "noopener noreferrer"; }
+        return el("a", attrs);
+      }
+      function render(resume) {
+        var basics = resume.basics || {};
+        var where = place(basics.location);
+        document.getElementById("name").textContent = basics.name || "";
+        document.getElementById("label").textContent = basics.label || "";
+        document.getElementById("summary").textContent = basics.summary || "";
+        document.getElementById("kicker").textContent = where || "La Caldera, Salta";
+        document.getElementById("footer-place").textContent = where;
+        var actions = document.getElementById("actions");
+        var linkedin = profile(basics.profiles, "LinkedIn");
+        var github = profile(basics.profiles, "GitHub");
+        if (basics.url) actions.append(btn(basics.url, "Ver magnami.ar", true));
+        if (linkedin) actions.append(btn(linkedin.url, "LinkedIn"));
+        if (wa(basics.phone)) actions.append(btn(wa(basics.phone), "WhatsApp"));
+        if (basics.email) actions.append(btn("mailto:" + basics.email, "Email"));
+        if (github) actions.append(btn(github.url, "GitHub"));
+        actions.append(btn("../../resume.json", "Ver JSON"));
+        actions.append(btn("../../resume.json", "Descargar JSON", false, "resume.json"));
+        var projects = document.getElementById("projects");
+        (resume.projects || []).forEach(function (project) {
+          var card = el("article", { class: "tile" });
+          var tags = el("div");
+          (project.keywords || []).forEach(function (word) { tags.append(el("span", { class: "tag", text: word })); });
+          if (tags.childNodes.length) card.append(tags);
+          card.append(el("h3", { text: project.name || "" }));
+          if (project.description) card.append(el("p", { text: project.description }));
+          if (project.entity) card.append(el("p", { class: "entity", text: project.entity }));
+          if (project.url) card.append(el("a", { href: project.url, target: "_blank", rel: "noopener noreferrer", text: host(project.url) }));
+          projects.append(reveal(card));
+        });
+        var work = document.getElementById("work");
+        (resume.work || []).forEach(function (job) {
+          var plate = el("article", { class: "plate" });
+          var side = el("div");
+          side.append(el("p", { class: "when", text: formatRange(job.startDate, job.endDate) }));
+          if (job.location) side.append(el("p", { class: "quiet", text: job.location }));
+          var body = el("div");
+          body.append(el("h3", { text: job.name || "" }));
+          if (job.position) body.append(el("p", { class: "role", text: job.position }));
+          if (job.summary) body.append(el("p", { class: "quiet", text: job.summary }));
+          if (job.highlights && job.highlights.length) {
+            var ul = el("ul");
+            job.highlights.forEach(function (item) { ul.append(el("li", { text: item })); });
+            body.append(ul);
+          }
+          if (job.url) body.append(el("a", { href: job.url, target: "_blank", rel: "noopener noreferrer", text: host(job.url) }));
+          plate.append(side, body);
+          work.append(reveal(plate));
+        });
+        var skills = document.getElementById("skills");
+        (resume.skills || []).forEach(function (skill) {
+          var card = el("article", { class: "group" });
+          card.append(el("h3", { text: skill.name || "" }));
+          var pills = el("div", { class: "pills" });
+          (skill.keywords || []).forEach(function (word) { pills.append(el("span", { class: "pill", text: word })); });
+          card.append(pills);
+          skills.append(reveal(card));
+        });
+        function study(item) {
+          var parsed = splitStatus(item.studyType);
+          var article = el("article", { class: "item" });
+          if (parsed.status) article.append(el("p", { class: "badge", text: cap(parsed.status) }));
+          article.append(el("h3", { text: item.institution || "" }));
+          if (item.area) article.append(el("p", { text: item.area }));
+          if (parsed.text) article.append(el("p", { class: "quiet", text: parsed.text }));
+          var span = formatSpan(item.startDate, item.endDate);
+          if (span) article.append(el("p", { class: "quiet", text: span }));
+          return article;
+        }
+        (resume.education || []).forEach(function (item) { document.getElementById("education").append(reveal(study(item))); });
+        (resume.certificates || []).forEach(function (item) {
+          var parsed = splitStatus(item.name);
+          var article = el("article", { class: "item" });
+          if (parsed.status) article.append(el("p", { class: "badge", text: cap(parsed.status) }));
+          article.append(el("h3", { text: parsed.text }));
+          document.getElementById("certificates").append(reveal(article));
+        });
+        (resume.languages || []).forEach(function (language) {
+          var row = el("div", { class: "item lang" });
+          row.append(el("b", { text: language.language || "" }));
+          if (language.fluency) row.append(el("span", { text: language.fluency }));
+          document.getElementById("languages").append(reveal(row));
+        });
+        (resume.interests || []).forEach(function (interest) {
+          var article = el("article", { class: "item" });
+          article.append(el("h3", { text: interest.name || "" }));
+          if (interest.keywords) article.append(el("p", { class: "quiet", text: interest.keywords.join(" · ") }));
+          document.getElementById("interests").append(reveal(article));
+        });
+        var nodes = document.querySelectorAll("[data-reveal]");
+        if (reduced || !("IntersectionObserver" in window)) nodes.forEach(function (node) { node.classList.add("is-in"); });
+        else {
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-in");
+              observer.unobserve(entry.target);
+            });
+          }, { threshold: 0.12 });
+          nodes.forEach(function (node) { observer.observe(node); });
+        }
+      }
+      var toggle = document.querySelector(".toggle");
+      var menu = document.getElementById("menu");
+      toggle.addEventListener("click", function () {
+        var open = menu.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      menu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          menu.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+      fetch("../../resume.json", { cache: "no-cache" })
+        .then(function (response) { if (!response.ok) throw new Error("fail"); return response.json(); })
+        .then(render)
+        .catch(function () { document.getElementById("summary").textContent = "No se pudo cargar resume.json."; });
+    })();
+  </script>
+</body>
+</html>
